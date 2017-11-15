@@ -7,6 +7,7 @@ const express = require ('express');
 const app = express();
 const config = require('./config/database');
 const User = require('./models/Users');
+const jwt = require('jwt-simple');
 
 mongoose.Promise = Promise;
 
@@ -44,16 +45,37 @@ app.get('/posts', cors(), (req,res) => {
     res.send(posts);
 });
 
+app.get('/users', async(req,res) => {
+    const users = await User.find({}, '-pwd');
+    res.send(users);
+});
+
 app.post('/register', cors(), (req,res) => {
     const userData = req.body;
 
     const user = new User(userData);
-    console.log(userData.email);
+    // console.log(userData.email);
 
-    user.save((error, result)=>{
+    user.save((err, result)=>{
         if(err) console.log('saving error');
         res.sendStatus(200);
     });
+    
+});
+
+app.post('/login', cors(), async(req,res) => {
+    const userData = req.body;
+    const user = await User.findOne({email: userData.email});
+    if(!user)return res.status(401).send({message: 'Email or Password invalid'});
+
+    if(userData.pwd !== user.pwd) return res.status(401).send({message: 'Email or Password Do not match'});
+
+    let payload = {};
+
+    let token = jwt.encode(payload, config.secret);
+
+    console.log(token);
+    res.status(200).send({token});
     
 });
 
