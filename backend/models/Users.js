@@ -1,10 +1,8 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-// const bcrypt = require('bcrypt-nodejs');
-// const bcrypt = require('bcrypt');
-const config = require('../config/database');
+const mongoose = require('mongoose')
+const bcrypt = require('bcrypt-nodejs')
+const config = require('../config/database')
 
-mongoose.Promise = Promise;
+mongoose.Promise = Promise
 
 
 
@@ -18,29 +16,15 @@ const UserSchema = mongoose.Schema({
 });
 
  UserSchema.pre('save', function(next) {
-    const user = this;  
-    const saltRounds = 10;
+    const user = this    
 
-    if(!user.isModified('pwd')) return next();
-    
-    bcrypt.genSalt(saltRounds, function(err, salt){
-        bcrypt.hash(user.pwd, salt, function(err, hash) {
-            if(err)return next(err)
-            user.pwd = hash;
-            next();
+    if(!user.isModified('pwd')) return next()
+    bcrypt.hash(user.pwd, null, null, function(err, hash){
+        if(err) return next(err)
+        user.pwd = hash
+        next()
+    })
+})  
 
-        });
-    });
-    
-
-    // bcrypt.genSalt(saltRounds, function(err, salt) {
-    //          bcrypt.hash(user.pwd, salt, function(err, hash) {
-    //              console.log(hash);
-                
-    //          });
-    //      });
-
-}); 
-
-const User = module.exports = mongoose.model('user', UserSchema);
-
+module.exports = mongoose.model('User', UserSchema)
+ 
