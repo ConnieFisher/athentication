@@ -9,9 +9,13 @@
   "author": "Connie Fisher",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^1.0.3",
+    "bcrypt-nodejs": "0.0.3",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "express": "^4.16.2",
+    "jwt-simple": "^0.5.1",
     "mongoose": "^4.13.1",
     "preflight": "^0.2.0"
   }

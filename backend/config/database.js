@@ -1,5 +1,5 @@
-module.exports = {
-    database: 'mongodb://localhost:27017/blog'
-
-}
-
+module.exports={
+    database:'mongodb://localhost:27017/auth',
+    secret:' mysecret'
+    
+};
