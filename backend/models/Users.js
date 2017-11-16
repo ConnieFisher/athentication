@@ -4,6 +4,9 @@ const bcrypt = require('bcryptjs');
 // const bcrypt = require('bcrypt');
 const config = require('../config/database');
 
+mongoose.Promise = Promise;
+
+
 
 //user schema
 const UserSchema = mongoose.Schema({
