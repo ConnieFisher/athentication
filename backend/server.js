@@ -46,7 +46,31 @@ app.get('/posts', cors(), (req,res) => {
 });
 
 app.get('/users', async(req,res) => {
-    const users = await User.find({}, '-pwd');
+    try {
+        const users = await User.find({}, '-pwd -__v');
+        res.send(users);
+        
+    } catch (error) {
+        console.error(error);
+        res.sendStatus(500);
+        
+    }
+    const users = await User.find({}, '-pwd -__v');
+    res.send(users);
+});
+
+app.get('/profile/:id', async(req,res) => {
+    console.log(req.params.id);
+     try {
+         const user = await User.findById(req.params.id, '-pwd -__v');
+         res.send(user);
+        
+     } catch (error) {
+         console.error(error);
+         res.sendStatus(500);
+        
+     }
+    const users = await User.find({}, '-pwd -__v');
     res.send(users);
 });
 
