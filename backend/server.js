@@ -98,17 +98,23 @@ app.post('/register', cors(), (req, res) => {
 
 app.post('/login', cors(), async(req, res) => {
     const loginData = req.body;
-    
-        const user = await User.findOne({email: loginData.email});
-    
-        bcrypt.compare(loginData.pwd, user.pwd, (err, isMatch) =>{
-            if(!isMatch) 
-            return res.status(401).send({message: 'Email or Password invalid'});
-    
-            const payload = {};
-            const token = jwt.encode(payload, config.secret);
-            res.status(200).send({token});
-        });
-    })
 
-    app.listen(path);
+    const user = await User.findOne({
+        email: loginData.email
+    });
+
+    bcrypt.compare(loginData.pwd, user.pwd, (err, isMatch) => {
+        if (!isMatch)
+            return res.status(401).send({
+                message: 'Email or Password invalid'
+            });
+
+        const payload = {};
+        const token = jwt.encode(payload, config.secret);
+        res.status(200).send({
+            token
+        });
+    });
+})
+
+app.listen(path);
